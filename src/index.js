@@ -10,5 +10,9 @@ ref.searchForm.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
   e.preventDefault();
-  fetchPicture();
+  const name = e.target.elements.searchQuery.value.trim();
+  if (name === '') {
+    return;
+  }
+  fetchPicture(name);
 }
