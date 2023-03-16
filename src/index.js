@@ -5,6 +5,7 @@ import './css/styles.css';
 const ref = {
   searchForm: document.querySelector('#search-form'),
   galleryEl: document.querySelector('.gallery'),
+  searchInput: document.querySelector('.search-input'),
   // observedEl: document.querySelector()
 };
 const myApi = new MyApi();
@@ -13,11 +14,11 @@ ref.searchForm.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
   e.preventDefault();
-
-  myApi.query = e.currentTarget.elements.requestQuery.value.trim();
+  // myApi.query = ref.searchInput.value.trim();
+  myApi.query = e.currentTarget.elements.query.value.trim();
   myApi.clearPage;
 
-  galleryEl.innerHTML = '';
+  ref.galleryEl.innerHTML = '';
 
   if (!myApi.query) {
     return Notiflix.Notify.failure(
@@ -93,7 +94,7 @@ function addMarkup(hits) {
     )
     .join('');
 
-  galleryEl.insertAdjacementHTML('beforeend', markup);
+  ref.galleryEl.insertAdjacementHTML('beforeend', markup);
 }
 
 // // let callback = (entries) => {
