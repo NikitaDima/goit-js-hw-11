@@ -14,8 +14,7 @@ ref.searchForm.addEventListener('submit', onSubmit);
 
 function onSubmit(e) {
   e.preventDefault();
-  // myApi.query = ref.searchInput.value.trim();
-  myApi.query = e.currentTarget.elements.query.value.trim();
+  myApi.query = e.target.elements.searchQuery.value.trim();
   myApi.clearPage;
 
   ref.galleryEl.innerHTML = '';
@@ -60,7 +59,7 @@ function renderOnRequest() {
 
 function addMarkup(hits) {
   const markup = hits
-    .mape(
+    .map(
       ({
         webformatURL,
         largeImageURL,
@@ -72,9 +71,9 @@ function addMarkup(hits) {
       }) => {
         return `
       <div class="photo-card">
-      <a href="${largeImageURL}>
+      
       <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-      </a>
+      
       <div class="info">
         <p class="info-item">
           <b>Likes: ${likes}</b>
@@ -94,7 +93,7 @@ function addMarkup(hits) {
     )
     .join('');
 
-  ref.galleryEl.insertAdjacementHTML('beforeend', markup);
+  ref.galleryEl.insertAdjacentHTML('beforeend', markup);
 }
 
 // // let callback = (entries) => {

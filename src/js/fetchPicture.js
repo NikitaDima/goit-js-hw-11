@@ -7,10 +7,11 @@ export class MyApi {
   constructor() {
     (this.page = 1), (this.requestQuery = '');
   }
+
   async fetchPicture() {
     try {
       const {
-        response: { hits, totalHits },
+        data: { hits, totalHits },
       } = await axios.get(`${BASE_URL}`, {
         params: {
           key: KEY,
