@@ -38,7 +38,7 @@ export class MyApi {
     this.requestQuery = newQuery;
   }
 
-  addPage() {
+  incrementPage() {
     this.page += 1;
   }
 

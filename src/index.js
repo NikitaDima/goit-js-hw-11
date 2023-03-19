@@ -8,9 +8,9 @@ const ref = {
   searchForm: document.querySelector('#search-form'),
   galleryEl: document.querySelector('.gallery'),
   loadMoreEl: document.querySelector('.load-more'),
-  // observedEl: document.querySelector()
 };
 ref.loadMoreEl.classList.add('hidden');
+
 const myApi = new MyApi();
 
 ref.searchForm.addEventListener('submit', onSubmit);
@@ -27,11 +27,6 @@ function onSubmit(e) {
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
-  fetchResult();
-}
-
-function fetchResult() {
-  // scroll.unobserve(observedEl);
   renderOnRequest();
 }
 
@@ -46,18 +41,15 @@ function renderOnRequest() {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
     addMarkup(hits);
-    // scroll.observe(observedEl);
-    // lightbox.refresh
+
     if (myApi.page === Math.ceil(totalHits / 40)) {
-      // scroll.unobserve(observedEl);
-      // лайтбокс.refresh()
       ref.loadMoreEl.classList.add('hidden');
       Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
       return;
     }
-    myApi.addPage();
+    myApi.incrementPage();
   });
 }
 
@@ -106,20 +98,4 @@ function addMarkup(hits) {
   });
 }
 
-ref.loadMoreEl.addEventListener('click', onLoadMore);
-
-function onLoadMore() {
-  renderOnRequest();
-}
-
-// // let callback = (entries) => {
-//   entries.forEach((entry) => {
-// if (entry.intersecting && myApi.query === ''){
-// if(myApi.page === 1) {
-//   return
-// } renderOnRequest()}
-
-//     //   entry.intersecting
-
-//   });
-// }; в середені треба передати посилання renderOnRequest()
+ref.loadMoreEl.addEventListener('click', renderOnRequest);

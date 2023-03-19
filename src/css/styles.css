@@ -32,6 +32,10 @@ body {
   border: none;
 }
 
+.search-input:focus {
+  outline: none;
+}
+
 .search-btn {
   width: 60px;
   height: 30px;
