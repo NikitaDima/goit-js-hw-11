@@ -1,13 +1,16 @@
 import Notiflix from 'notiflix';
 import { MyApi } from './js/fetchPicture';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import './css/styles.css';
 
 const ref = {
   searchForm: document.querySelector('#search-form'),
   galleryEl: document.querySelector('.gallery'),
-  searchInput: document.querySelector('.search-input'),
+  loadMoreEl: document.querySelector('.load-more'),
   // observedEl: document.querySelector()
 };
+ref.loadMoreEl.classList.add('hidden');
 const myApi = new MyApi();
 
 ref.searchForm.addEventListener('submit', onSubmit);
@@ -24,7 +27,6 @@ function onSubmit(e) {
       'Sorry, there are no images matching your search query. Please try again.'
     );
   }
-
   fetchResult();
 }
 
@@ -49,9 +51,11 @@ function renderOnRequest() {
     if (myApi.page === Math.ceil(totalHits / 40)) {
       // scroll.unobserve(observedEl);
       // лайтбокс.refresh()
-      return Notiflix.Notify.info(
+      ref.loadMoreEl.classList.add('hidden');
+      Notiflix.Notify.info(
         "We're sorry, but you've reached the end of search results."
       );
+      return;
     }
     myApi.addPage();
   });
@@ -71,9 +75,9 @@ function addMarkup(hits) {
       }) => {
         return `
       <div class="photo-card">
-      
-      <img src="${webformatURL}" alt="${tags}" loading="lazy" width=300/>
-      
+      <a href=${largeImageURL} target="_blank" data-gallery="my-gallery">
+      <img src="${webformatURL}" alt="${tags}" loading="lazy" width=300 height=200/>
+      </a>
       <div class="info">
         <p class="info-item">
           <b>Likes: ${likes}</b>
@@ -94,6 +98,18 @@ function addMarkup(hits) {
     .join('');
 
   ref.galleryEl.insertAdjacentHTML('beforeend', markup);
+  ref.loadMoreEl.classList.remove('hidden');
+  const lightbox = new SimpleLightbox('[data-gallery="my-gallery"]', {
+    captions: true,
+    captionsData: 'title',
+    captionDelay: 250,
+  });
+}
+
+ref.loadMoreEl.addEventListener('click', onLoadMore);
+
+function onLoadMore() {
+  renderOnRequest();
 }
 
 // // let callback = (entries) => {
